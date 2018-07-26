@@ -18,7 +18,16 @@ public class MainWindowController {
 	private TextField textDayOfYear;
 
 	@FXML
+	private TextField textYear;
+
+	@FXML
+	private TextField textGpsDay;
+
+	@FXML
 	private TextField textGpsWeek;
+
+	@FXML
+	private TextField textGpsHour;
 
 	public void setDateTime(String text) {
 		textDateTime.setText(text);
@@ -38,6 +47,18 @@ public class MainWindowController {
 
 	public void setGpsWeek(String text) {
 		textGpsWeek.setText(text);
+	}
+
+	public void setYear(String text) {
+		textYear.setText(text);
+	}
+
+	public void setGpsHour(String text) {
+		textGpsHour.setText(text);
+	}
+
+	public void setGpsDay(String text) {
+		textGpsDay.setText(text);
 	}
 
 }

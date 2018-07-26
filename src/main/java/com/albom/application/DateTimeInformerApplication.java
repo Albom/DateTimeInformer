@@ -37,7 +37,7 @@ public class DateTimeInformerApplication extends Application {
 	private TrayIcon trayIcon;
 	private Stage stage = null;
 	private MainWindowController controller = null;
-	private final String PROGRAM_NAME = "DateTime Informer v0.1";
+	private final String PROGRAM_NAME = "DateTime Informer v0.2";
 
 	public static void main(String[] args) {
 		try {
@@ -102,14 +102,17 @@ public class DateTimeInformerApplication extends Application {
 
 	private void setDateTime() {
 		Instant now = Instant.now();
-		LocalDateTime sys = LocalDateTime.ofInstant(now, ZoneId.systemDefault());
-		LocalDateTime utc = LocalDateTime.ofInstant(now, ZoneId.of("Z"));
+		LocalDateTime sys = LocalDateTime.ofInstant(now, ZoneId.systemDefault()).withNano(0);
+		LocalDateTime utc = LocalDateTime.ofInstant(now, ZoneId.of("Z")).withNano(0);
 		controller.setDateTime(sys.toString());
 		controller.setDateTimeUtc(utc.toString());
 		controller.setTimeStamp(String.valueOf(utc.atZone(ZoneId.of("Z")).toEpochSecond()));
 		controller.setDayOfYear(String.valueOf(utc.get(ChronoField.DAY_OF_YEAR)));
 		controller.setGpsWeek(
 				String.valueOf(ChronoUnit.DAYS.between(LocalDate.of(1980, 1, 13), utc.toLocalDate()) / 7 + 1));
+		controller.setYear(String.valueOf(utc.get(ChronoField.YEAR)));
+		controller.setGpsDay(String.valueOf(utc.get(ChronoField.DAY_OF_WEEK) % 7));
+		controller.setGpsHour(String.valueOf((char) (utc.get(ChronoField.HOUR_OF_DAY) + 'A')));
 	}
 
 	private PopupMenu createMenu() {
@@ -141,7 +144,7 @@ public class DateTimeInformerApplication extends Application {
 			System.out.println(e);
 		}
 
-		Scene scene = new Scene(pane, 320, 200);
+		Scene scene = new Scene(pane, 350, 200);
 		stage.setTitle(PROGRAM_NAME);
 		stage.setScene(scene);
 		stage.initStyle(StageStyle.UTILITY);
